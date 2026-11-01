@@ -1,0 +1,35 @@
+{
+    "version": "0.1.0",
+    "description": "A fast, no-nonsense photo viewer",
+    "homepage": "https://nominy.github.io/vitreus",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Nominy/vitreus/releases/download/v0.1.0/vitreus-windows-x64.zip",
+            "hash": "f8a904c247d4ee6a08e70880bf3e4246311d3a613d07a5a906f0dfe04f915ea9"
+        }
+    },
+    "bin": "vitreus.exe",
+    "shortcuts": [["vitreus.exe", "Vitreus"]],
+    "post_install": [
+        "$flags = @('--register', '--path', (Join-Path (Split-Path $dir) 'current\\vitreus.exe'))",
+        "if ($global) { $flags += '--machine' }",
+        "& \"$dir\\vitreus.exe\" @flags | Out-Null"
+    ],
+    "pre_uninstall": [
+        "$flags = @('--unregister')",
+        "if ($global) { $flags += '--machine' }",
+        "& \"$dir\\vitreus.exe\" @flags | Out-Null"
+    ],
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Nominy/vitreus/releases/download/v$version/vitreus-windows-x64.zip"
+            }
+        },
+        "hash": {
+            "url": "$baseurl/SHA256SUMS"
+        }
+    }
+}
